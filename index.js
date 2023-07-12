@@ -92,18 +92,93 @@ export function fileOrDir(route) {
 }*/
 
 /*------------------------------------------------VERIFICA SI HAY ARCHIVO Y PROCESARLO-------------------------------*/
-export function processFile(route) {
-  // este debe ser asincrono debe tener una promesa debo de ejecutar la promesa
-  fs.readFile(route, "utf8", (err, file) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(file);
+export function processFile(arrayFiles) {
+  return new Promise((resolve, reject) => {
+    arrayFiles.forEach((file) => {
+      // este debe ser asincrono debe tener una promesa debo de ejecutar la promesa
+      fs.readFile(file, "utf-8", (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        const arrayData = data.split("\n");
+        resolve(arrayData);
+      });
+    });
   });
 }
 
 // FILTRAR SOLO LOS DE EXTENSIÓN MD
 export function getMdExtension(arrayFiles) {
   return arrayFiles.filter((file) => path.extname(file) === ".md");
+}
+
+// VERIFICAR SI TIENEN LINKS
+/*export function getLinks(arrayLinks){
+  const links = []
+  const route = path.resolve()
+  arrayLinks.forEach((elem)=>{
+    
+    if(elem.match(/\[(.*?)\]\((.*?)\)/g)){
+      let linkMatch = elem.match(/\[(.*?)\]\((.*?)\)/g)
+      links.push({
+        href: linkMatch[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkMatch[0].match(/\[(.*)\]/)[1],
+        file: route
+      })
+    }
+  })
+  console.table(links)
+  return links;
+  }*/
+
+// VERIFICAR SI TIENEN LINKS
+export function getLinks(array) {
+  const links = [];
+  const regex = /\[.+?\]\(.+?\)/g;
+  array.forEach((link) => {
+    const linkMatches = link.match(regex);
+    if (linkMatches) {
+      links.push(...linkMatches);
+    }
+  });
+  // console.table(links);
+  return links;
+}
+
+// VERIFICAR EL LINK ES TRUE
+export function linksTrue(links) {
+  const trueLinks = [];
+  links.forEach((link) => {
+    let ruta = path.resolve();
+    if (link.match(/\[.+?\]\(.+?\)/g)) {
+      let linkTrue = link.match(/\[.+?\]\(.+?\)/g);
+      trueLinks.push({
+        href: linkTrue[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkTrue[0].match(/\[(.*?)\]/)[1],
+        file: ruta,
+        ok: "ok",
+        HTTP: "validate",
+      });
+    }
+  });
+  console.log(trueLinks, 99);
+  return trueLinks;
+}
+
+// VERIFICAR EL LINK ES FALSE
+export function linksFalse(links) {
+  const falseLinks = [];
+  links.forEach((link) => {
+    let ruta = path.resolve();
+    if (link.match(/\[.+?\]\(.+?\)/g)) {
+      let linkFalse = link.match(/\[.+?\]\(.+?\)/g);
+      falseLinks.push({
+        href: linkFalse[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkFalse[0].match(/\[(.*?)\]/)[1],
+        file: ruta,
+      });
+    }
+  });
+  console.log(falseLinks);
+  return falseLinks;
 }
