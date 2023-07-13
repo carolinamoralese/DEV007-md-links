@@ -189,16 +189,6 @@ export function linksFalse(links, isValidateTrue) {
       } else {
         falseLinks.push({...linkObject, ok: 'ok', HTTP: "validate"})
       }
-
-      
-      
-      if(linksFalse){
-        
-        /*falseLinks.push({
-        ok: "ok",
-        HTTP: "validate",
-        })*/
-      }
     }
   });
   console.log(falseLinks);

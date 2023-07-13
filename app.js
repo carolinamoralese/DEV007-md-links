@@ -31,12 +31,10 @@ export const mdLinks = (document, options) => {
         //console.log(filesMd, 26)
         .then((data) => {
           const links = getLinks(data)
-          if(options.validate){
-            const validatedLlinks = linksFalse(links, options.validate);
-            resolve(validatedLlinks)
-          } 
+          const validatedLlinks = linksFalse(links, options.validate);
+          resolve(validatedLlinks)
           resolve(links)
-        })
+      })
         .catch((err) =>{
           reject(err)
         })
