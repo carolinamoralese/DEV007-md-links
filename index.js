@@ -1,6 +1,11 @@
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
+import axios from "axios";
+
+//axios.get('https://www.canva.com/').then((res) => {
+ //// console.log(res, 90)
+//})
 
 /*------------------------------------------------FUNCION QUE LEE LA RUTA Y BUSCA ARCHIVO -------------------------------*/
 

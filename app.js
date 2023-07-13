@@ -11,18 +11,14 @@ import {
 
 import chalk from "chalk";
 
-const document = process.argv[2];
-const isExists = routeExists(document);
-const isOptionValidate = process.argv.includes('--validate');
-console.log(chalk.bold.white(isOptionValidate))
-
-const isOptionStats = process.argv.includes('--stats');
-console.log(chalk.bold.white(isOptionStats))
+//const document = process.argv[2];
 
 
 
-const mdLinks = () => {
+
+export const mdLinks = (document, options) => {
     return new Promise((resolve, reject) => {
+      const isExists = routeExists(document);
       if (isExists) {
         const absolute = routeAbsolute(document);
         console.log(chalk.bold.bgGreen(absolute));
@@ -34,27 +30,12 @@ const mdLinks = () => {
         processFile(filesMd)
         //console.log(filesMd, 26)
         .then((data) => {
-          resolve(data)
           const links = getLinks(data)
-
-          
-        if(isOptionValidate && !isOptionStats){
-            linksTrue(links);
-            console.log('Stats: ', isOptionStats)
-            console.log('Validate: ', isOptionValidate)
-        } 
-        if (isOptionValidate && isOptionStats){
-            console.log('ejecuta validate y states');
-            console.log('Stats: ', isOptionStats)
-            console.log('Validate: ', isOptionValidate)
-            linksTrue(links);                
-        }
-        if (isOptionStats && !isOptionValidate){
-            console.log('ejecuta states');
-            console.log('Stats: ', isOptionStats)
-            console.log('Validate: ', isOptionValidate)
-            linksFalse(links);
-        }
+          if(options.validate){
+            const validatedLlinks = linksTrue(links);
+            resolve(validatedLlinks)
+          } 
+          resolve(links)
         })
         .catch((err) =>{
           reject(err)
@@ -65,4 +46,4 @@ const mdLinks = () => {
       }
    })
 }
-mdLinks(document);
+//mdLinks(document);
