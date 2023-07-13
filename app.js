@@ -6,7 +6,7 @@ import {
   processFile,
   getLinks,
   linksFalse,
-  linksTrue
+  //validateTrue
 } from "./index.js";
 
 import chalk from "chalk";
@@ -32,7 +32,7 @@ export const mdLinks = (document, options) => {
         .then((data) => {
           const links = getLinks(data)
           if(options.validate){
-            const validatedLlinks = linksTrue(links);
+            const validatedLlinks = linksFalse(links, options.validate);
             resolve(validatedLlinks)
           } 
           resolve(links)

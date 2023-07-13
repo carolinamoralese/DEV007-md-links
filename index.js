@@ -151,7 +151,7 @@ export function getLinks(array) {
 }
 
 // VERIFICAR EL LINK ES TRUE
-export function linksTrue(links) {
+/*export function validateTrue(links) {
   const trueLinks = [];
   links.forEach((link) => {
     let ruta = path.resolve();
@@ -168,20 +168,37 @@ export function linksTrue(links) {
   });
   console.log(trueLinks, 99);
   return trueLinks;
-}
+}*/
 
 // VERIFICAR EL LINK ES FALSE
-export function linksFalse(links) {
+export function linksFalse(links, isValidateTrue) {
   const falseLinks = [];
   links.forEach((link) => {
     let ruta = path.resolve();
     if (link.match(/\[.+?\]\(.+?\)/g)) {
       let linkFalse = link.match(/\[.+?\]\(.+?\)/g);
-      falseLinks.push({
+      
+      const linkObject = {
         href: linkFalse[0].match(/https*?:([^"')\s]+)/)[0],
         text: linkFalse[0].match(/\[(.*?)\]/)[1],
         file: ruta,
-      });
+      }
+
+      if (!isValidateTrue) {
+        falseLinks.push(linkObject)
+      } else {
+        falseLinks.push({...linkObject, ok: 'ok', HTTP: "validate"})
+      }
+
+      
+      
+      if(linksFalse){
+        
+        /*falseLinks.push({
+        ok: "ok",
+        HTTP: "validate",
+        })*/
+      }
     }
   });
   console.log(falseLinks);
