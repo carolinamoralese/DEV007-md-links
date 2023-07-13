@@ -1,5 +1,5 @@
 import {mdLinks} from './app.js'
-import chalk from "chalk";
+import chalk from 'chalk';
 
 const document = process.argv[2];
 
