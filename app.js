@@ -6,42 +6,40 @@ import {
   processFile,
   getLinks,
   linksFalse,
-  //validateTrue
+  peticionHTTP,
 } from "./index.js";
 
 import chalk from "chalk";
 
 //const document = process.argv[2];
 
-
-
-
 export const mdLinks = (document, options) => {
-    return new Promise((resolve, reject) => {
-      const isExists = routeExists(document);
-      if (isExists) {
-        const absolute = routeAbsolute(document);
-        console.log(chalk.bold.bgGreen(absolute));
-        const archivos = fileOrDir(document);
-        console.log(chalk.bold.blue(archivos, 12));
-        const filesMd = getMdExtension(archivos);
-        console.log(chalk.bold.red(filesMd, 15));
-        // averiguar como ejecutar función asíncrona then catch
-        processFile(filesMd)
+  return new Promise((resolve, reject) => {
+    const isExists = routeExists(document);
+    if (isExists) {
+      const absolute = routeAbsolute(document);
+      //console.log(chalk.bold.bgGreen(absolute));
+      const archivos = fileOrDir(document);
+      //console.log(chalk.bold.blue(archivos, 12));
+      const filesMd = getMdExtension(archivos);
+      //console.log(chalk.bold.red(filesMd, 15));
+      // averiguar como ejecutar función asíncrona then catch
+      processFile(filesMd)
         //console.log(filesMd, 26)
         .then((data) => {
-          const links = getLinks(data)
-          const validatedLlinks = linksFalse(links, options.validate);
-          resolve(validatedLlinks)
-          resolve(links)
-      })
-        .catch((err) =>{
-          reject(err)
+          const links = getLinks(data);
+          const objsLinks = linksFalse(links);
+          if (!options.validate) {
+            resolve(objsLinks);
+          } else {
+            peticionHTTP(objsLinks).then((res) => resolve(res));
+          }
         })
-        
-      } else {
-        console.error("ERROR");
-      }
-   })
-}
-//mdLinks(document);
+        .catch((err) => {
+          reject(err);
+        });
+    } else {
+      console.error("ERROR");
+    }
+  });
+};
