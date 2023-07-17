@@ -25,7 +25,7 @@ mdLinks(document, options)
 
       }else if(options.validate){
         links.forEach(link => {
-           console.log(chalk.bold.gray(link.file + " " + link.href + " " + link.mensaje + " " + link.status + " " + link.text))
+           console.log(chalk.bold.gray(link.file + ' ' + link.href + ' ' + link.mensaje + ' ' + link.status + ' ' + link.text))
         });
 
       }else if(options.stats) {
@@ -34,10 +34,10 @@ mdLinks(document, options)
 
       }else{
         links.forEach(link => {
-            console.log(chalk.bold.yellow(link.file + " " + link.href + " " + link.text))
+            console.log(chalk.bold.yellow(link.file + ' ' + link.href + ' ' + link.text))
          });
       }
-//console.log(links)
+
 })
 .catch((err)=>{
 console.log(err, 22)
@@ -49,20 +49,3 @@ console.log(err, 22)
 /// cuadno este el star primer tener la funcion para los links, href, test, validate, despues el axios, funcion isvaldite true que sea asincorna y consuma el axios
 // funciones de estadisticas, terminar ek true
 
-/*if(isOptionValidate && !isOptionStats){
-    linksTrue(links);
-    console.log('Stats: ', isOptionStats)
-    console.log('Validate: ', isOptionValidate)
-} 
-if (isOptionValidate && isOptionStats){
-    console.log('ejecuta validate y states');
-    console.log('Stats: ', isOptionStats)
-    console.log('Validate: ', isOptionValidate)
-    linksTrue(links);                
-}
-if (isOptionStats && !isOptionValidate){
-    console.log('ejecuta states');
-    console.log('Stats: ', isOptionStats)
-    console.log('Validate: ', isOptionValidate)
-    linksFalse(links);
-}*/

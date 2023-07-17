@@ -1,7 +1,7 @@
-import fs from "fs";
-import path from "path";
-import chalk from "chalk";
-import axios from "axios";
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import axios from 'axios';
 
 /*------------------------------------------------FUNCION QUE LEE LA RUTA Y BUSCA ARCHIVO -------------------------------*/
 export function routeExists(route) {
@@ -31,7 +31,7 @@ export function fileOrDir(route) {
   if (stats.isFile()) {
     arrayFiles.push(route);
   } else if (stats.isDirectory()) {
-    const files = fs.readdirSync(route, "utf-8");
+    const files = fs.readdirSync(route, 'utf-8');
     files.forEach((file) => {
       const newRoute = path.join(route, file);
       const statsNew = fs.statSync(newRoute);
@@ -66,7 +66,7 @@ export const processFile = (arrayFiles) => {
 
 /*------------------------------------------------FILTRAR SOLO LOS DE EXTENSIÓN MD-------------------------------*/
 export function getMdExtension(arrayFiles) {
-  return arrayFiles.filter((file) => path.extname(file) === ".md");
+  return arrayFiles.filter((file) => path.extname(file) === '.md');
 }
 
 /*------------------------------------------------VERIFICAR SI TIENEN LINKS-------------------------------*/
@@ -82,7 +82,7 @@ export function getLinks(array) {
   return links;
 }
 
-/*------------------------------------------------VERIFICAR EL LINK ES FALSE-------------------------------*/
+/*------------------------------------------------VERIFICAR EL LINK -------------------------------*/
 // organizar
 export function checkLinks(links) {
   const arrayLinks = [];
@@ -110,11 +110,10 @@ export function peticionHTTP(arrObjs) {
       .then((response) => {
         obj.status = response.status;
         obj.mensaje = response.statusText;
-      
         return obj;
       })
       .catch((err) => {
-        obj.mensaje = "Fail";
+        obj.mensaje = 'Fail';
         if(err.response){
           obj.status = err.response.status;
         }
@@ -133,13 +132,10 @@ export function getStatsFromLinks(arrObjs,isOptionValidate) {
       unique: new Set(arrObjs.map((link) => link.href)).size,
     }
     if(isOptionValidate){
-      allStats.working = arrObjs.filter( obj => obj.mensaje == "OK").length;
-      allStats.broken = arrObjs.filter( obj => obj.mensaje == "Fail").length;
+      allStats.working = arrObjs.filter( obj => obj.mensaje == 'OK').length;
+      allStats.broken = arrObjs.filter( obj => obj.mensaje == 'Fail').length;
     }
-
     resolve(allStats);
-
-
   });
 
 }

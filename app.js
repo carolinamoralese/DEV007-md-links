@@ -8,8 +8,8 @@ import {
   checkLinks,
   peticionHTTP,
   getStatsFromLinks,
-} from "./index.js";
-
+} from './index.js';
+import chalk from 'chalk';
 
 
 //const document = process.argv[2];
@@ -49,7 +49,7 @@ export const mdLinks = (document, options) => {
           reject(err);
         });
     } else {
-      console.error("ERROR");
+      console.log(chalk.bold.red('La ruta ingresada no existe'))
     }
   });
 };
