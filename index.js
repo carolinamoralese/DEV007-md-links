@@ -10,6 +10,7 @@ export function routeExists(route) {
     return true;
   } else {
     return false;
+    
   }
 }
 

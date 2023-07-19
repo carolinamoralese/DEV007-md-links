@@ -18,14 +18,14 @@ export const mdLinks = (document, options) => {
   return new Promise((resolve, reject) => {
     const isExists = routeExists(document);
     if (isExists) {
-      const absolute = routeAbsolute(document);
+      routeAbsolute(document);
       const archivos = fileOrDir(document);
       const filesMd = getMdExtension(archivos);
       processFile(filesMd)
         .then((data) => {
           const links = getLinks(data);
           const objsLinks = checkLinks(links);
-          
+
           if (options.validate && options.stats) {
 
             peticionHTTP(objsLinks).then((validatedLinks) => {
@@ -50,6 +50,7 @@ export const mdLinks = (document, options) => {
         });
     } else {
       console.log(chalk.bold.red('La ruta ingresada no existe'))
+      console.log("no es un archivo .md")
     }
   });
 };
