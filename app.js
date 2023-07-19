@@ -25,7 +25,7 @@ export const mdLinks = (document, options) => {
         .then((data) => {
           const links = getLinks(data);
           const objsLinks = checkLinks(links);
-
+          
           if (options.validate && options.stats) {
 
             peticionHTTP(objsLinks).then((validatedLinks) => {
