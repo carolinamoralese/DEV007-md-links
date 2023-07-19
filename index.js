@@ -1,16 +1,14 @@
-import fs from "fs";
-import path from "path";
-import chalk from "chalk";
-import axios from "axios";
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import axios from 'axios';
 
 /*------------------------------------------------FUNCION QUE LEE LA RUTA Y BUSCA ARCHIVO -------------------------------*/
 export function routeExists(route) {
   // parametro
   if (fs.existsSync(route)) {
-    // console.log("El archivo EXISTE!");
     return true;
   } else {
-    //console.warn(chalk.bold.red("El archivo NO FUE ENCONTRADO!"));
     return false;
   }
 }
@@ -19,10 +17,8 @@ export function routeExists(route) {
 
 export function routeAbsolute(route) {
   if (path.isAbsolute(route) === true) {
-    // console.log(route);
     return route;
   } else {
-    //console.log( path.resolve(route));
     return path.resolve(route);
   }
 }
@@ -35,7 +31,7 @@ export function fileOrDir(route) {
   if (stats.isFile()) {
     arrayFiles.push(route);
   } else if (stats.isDirectory()) {
-    const files = fs.readdirSync(route, "utf-8");
+    const files = fs.readdirSync(route, 'utf-8');
     files.forEach((file) => {
       const newRoute = path.join(route, file);
       const statsNew = fs.statSync(newRoute);
@@ -46,13 +42,11 @@ export function fileOrDir(route) {
       }
     });
   }
-  console.log("allfiles: ", arrayFiles);
   return arrayFiles;
 }
 
 /*------------------------------------------------VERIFICA SI HAY ARCHIVO Y PROCESARLO-------------------------------*/
 export const processFile = (arrayFiles) => {
-  console.log('deberia llegar array de 2nd', arrayFiles);
   const allFiles = [];
   arrayFiles.forEach((file) => {
     allFiles.push(
@@ -72,7 +66,7 @@ export const processFile = (arrayFiles) => {
 
 /*------------------------------------------------FILTRAR SOLO LOS DE EXTENSIÓN MD-------------------------------*/
 export function getMdExtension(arrayFiles) {
-  return arrayFiles.filter((file) => path.extname(file) === ".md");
+  return arrayFiles.filter((file) => path.extname(file) === '.md');
 }
 
 /*------------------------------------------------VERIFICAR SI TIENEN LINKS-------------------------------*/
@@ -85,15 +79,13 @@ export function getLinks(array) {
       links.push(...linkMatches);
     }
   });
-  // console.table(links);
   return links;
 }
 
-/*------------------------------------------------VERIFICAR EL LINK ES FALSE-------------------------------*/
+/*------------------------------------------------VERIFICAR EL LINK -------------------------------*/
 // organizar
-export function linksFalse(links) {
-  console.log("debería llegar el array: ", links, 92);
-  const falseLinks = [];
+export function checkLinks(links) {
+  const arrayLinks = [];
 
   links.forEach((link) => {
     let ruta = path.resolve();
@@ -104,11 +96,10 @@ export function linksFalse(links) {
         text: linkFalse[0].match(/\[(.*?)\]/)[1],
         file: ruta,
       };
-      falseLinks.push(linkObject);
+      arrayLinks.push(linkObject);
     }
   });
-  //console.log(falseLinks);
-  return falseLinks;
+  return arrayLinks;
 }
 
 /*------------------------------------------------PETICION HTTP---------------------------------------------*/
@@ -122,14 +113,33 @@ export function peticionHTTP(arrObjs) {
         return obj;
       })
       .catch((err) => {
-        obj.status = err.status;
-        obj.mensaje = "Fail";
+        obj.mensaje = 'Fail';
+        if(err.response){
+          obj.status = err.response.status;
+        }
         return obj;
       });
   });
-  //console.log(arrayPromises)
   return Promise.all(arrayPromises);
 }
+
+
+/*------------------------------------------------OBTENER ESTADISTICAS---------------------------------------------*/
+export function getStatsFromLinks(arrObjs,isOptionValidate) {
+  return new Promise((resolve, reject) => {
+    const allStats = {
+      total: arrObjs.length,
+      unique: new Set(arrObjs.map((link) => link.href)).size,
+    }
+    if(isOptionValidate){
+      allStats.working = arrObjs.filter( obj => obj.mensaje == 'OK').length;
+      allStats.broken = arrObjs.filter( obj => obj.mensaje == 'Fail').length;
+    }
+    resolve(allStats);
+  });
+
+}
+
 
 // solo dejar console log cli, funcion stats, se necesita el resultado del cli
 // DEL ARRAY cuantos objetos son buenos, averiguar sobre (new Set), van los test, luego la publicacion

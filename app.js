@@ -5,11 +5,12 @@ import {
   getMdExtension,
   processFile,
   getLinks,
-  linksFalse,
+  checkLinks,
   peticionHTTP,
-} from "./index.js";
+  getStatsFromLinks,
+} from './index.js';
+import chalk from 'chalk';
 
-import chalk from "chalk";
 
 //const document = process.argv[2];
 
@@ -18,28 +19,37 @@ export const mdLinks = (document, options) => {
     const isExists = routeExists(document);
     if (isExists) {
       const absolute = routeAbsolute(document);
-      //console.log(chalk.bold.bgGreen(absolute));
       const archivos = fileOrDir(document);
-      //console.log(chalk.bold.blue(archivos, 12));
       const filesMd = getMdExtension(archivos);
-      //console.log(chalk.bold.red(filesMd, 15));
-      // averiguar como ejecutar función asíncrona then catch
       processFile(filesMd)
-        //console.log(filesMd, 26)
         .then((data) => {
           const links = getLinks(data);
-          const objsLinks = linksFalse(links);
-          if (!options.validate) {
-            resolve(objsLinks);
-          } else {
+          const objsLinks = checkLinks(links);
+
+          if (options.validate && options.stats) {
+
+            peticionHTTP(objsLinks).then((validatedLinks) => {
+              getStatsFromLinks(validatedLinks, options.validate).then((res) => resolve(res));
+            });
+
+          }else if(options.validate){
+
             peticionHTTP(objsLinks).then((res) => resolve(res));
+
+          }else if(options.stats) {
+
+            getStatsFromLinks(objsLinks, options.validate).then((res) => resolve(res));
+
+          }else{
+            resolve(objsLinks)
           }
+
         })
         .catch((err) => {
           reject(err);
         });
     } else {
-      console.error("ERROR");
+      console.log(chalk.bold.red('La ruta ingresada no existe'))
     }
   });
 };
