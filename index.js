@@ -83,10 +83,8 @@ export function getLinks(array) {
 }
 
 /*------------------------------------------------VERIFICAR EL LINK -------------------------------*/
-// organizar
 export function checkLinks(links) {
   const arrayLinks = [];
-
   links.forEach((link) => {
     let ruta = path.resolve();
     if (link.match(/\[.+?\]\(.+?\)/g)) {
@@ -141,6 +139,4 @@ export function getStatsFromLinks(arrObjs,isOptionValidate) {
 }
 
 
-// solo dejar console log cli, funcion stats, se necesita el resultado del cli
-// DEL ARRAY cuantos objetos son buenos, averiguar sobre (new Set), van los test, luego la publicacion
 

@@ -1,7 +1,9 @@
 {
-  "name": "md-links",
-  "version": "0.1.0",
+  "name": "md-links-caro-morales",
+  "version": "1.0.0",
   "type": "module",
+  "main":"cli.js",
+  "bin": "./cli.js",
   "engines": {
     "node": ">=16.x"
   },
@@ -20,9 +22,10 @@
     "jest": "^29.6.1"
   },
   "dependencies": {
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "jest-diff": "^29.6.1"
   },
-   "eslintConfig": {
+  "eslintConfig": {
     "extends": "airbnb-base",
     "parserOptions": {
       "sourceType": "module"
