@@ -3,9 +3,10 @@
 ## Índice
 * [1. Diagrama de flujo](#1-diagrama-de-flujo)
 * [2. Resumen del proyecto](#2-resumen-del-proyecto)
-* [3. Explicacion de la libreria](#3-explicacion-de-la-libreria)
-* [4. Documentacion tecnica de la libreria](#4-documentacion-tecnica-de-la-libreria)
-* [5. Checklist](#5-checklist)
+* [3. Guía de instalación](#3-guía-de-instalación)
+* [4. Explicacion de la libreria](#4-explicacion-de-la-libreria)
+* [5. Documentacion tecnica de la libreria](#5-documentacion-tecnica-de-la-libreria)
+* [6. Checklist](#6-checklist)
 
 
 ***
@@ -22,7 +23,46 @@ Estos archivos Markdown suelen incluir enlaces (vínculos/ligas) que a menudo es
 
 Recientemente, en una comunidad de código abierto, se nos ha propuesto crear una herramienta utilizando Node.js. Esta herramienta tendría la capacidad de leer y analizar archivos en formato Markdown, con el propósito de verificar los enlaces que contengan y proporcionar informes estadísticos al respecto.
 
-## 3. Explicacion de la libreria
+## 3. Guía de instalación
+
+Puede utilizar esta biblioteca como aplicación CLI o como API.
+
+## 1) JavaScript API
+
+- Instalación
+
+Para utilizar la biblioteca como una API, siga estos pasos:
+
+Clonar este repositorio
+Abra su terminal y use el comando cd para ir a la carpeta donde desea guardar el proyecto.
+Ejecute el siguiente comando: git clone https://github.com/carolinamoralese/DEV007-md-links
+Abra la carpeta en su software de edición de código.
+Abre la terminal y podrás comenzar a usar la API.
+
+- Usabilidad
+
+Deberás usar el siguiente comando en tu terminal:
+
+node cli.js [options]
+
+
+## 2) CLI (Command Line Interface - Interfaz de Línea de Comando)
+
+- Instalación
+
+Abre tu terminal y ejecuta el siguiente comando:
+
+npm i md-links-caro-morales
+
+- Usabilidad
+
+Una vez completada la instalación, ejecute el siguiente comando en su terminal:
+
+npx md-links-caro-morales [options]
+
+
+
+## 4. Explicacion de la libreria
 
 En primer lugar, se solicita al usuario que introduzca la ruta del archivo que desea leer.
 
@@ -53,11 +93,11 @@ Si el usuario ingresa las opciones --validate --stats, podra ver en la terminal 
 
 
 
-## 4. Documentacion tecnica de la libreria
+## 5. Documentacion tecnica de la libreria
 
 ![documentacion](https://github.com/carolinamoralese/DEV007-md-links/blob/729fda8ae31b32b31d6db60ec11256cf71a7d0da/imagenes/documentacion.png)
 
-## 5. Checklist
+## 6. Checklist
 
 ### General
 
