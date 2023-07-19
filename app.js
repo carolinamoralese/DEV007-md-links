@@ -50,7 +50,6 @@ export const mdLinks = (document, options) => {
         });
     } else {
       console.log(chalk.bold.red('La ruta ingresada no existe'))
-      console.log("no es un archivo .md")
     }
   });
 };

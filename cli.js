@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import {mdLinks} from './app.js'
 import chalk from 'chalk';
 
